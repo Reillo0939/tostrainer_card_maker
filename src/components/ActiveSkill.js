@@ -19,18 +19,19 @@ function ActiveSkills(props) {
 		transition,
 	  } = useSortable({id: props.id});
 	const style = {
-	transform: CSS.Transform.toString(transform),
-	transition,
+		position:'relative',
+		transform: CSS.Transform.toString(transform),
+		transition,
 	};
 	return (
 		<div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-			<Collapse iconPosition={"left"} >
+			<Collapse iconPosition={"left"}>
 				<Collapse.Panel key = {props.id} header={props.name} icon={true}>
 					<p>{props.name}</p>
 					<CardCondition />
-					<Button onClick={deleteButton}>刪除</Button>
 				</Collapse.Panel>
 			</Collapse>
+			<Button onClick={deleteButton} style={{position:'absolute',right:'0px',top:'0px'}}>刪除</Button>
 		</div>
 	);
 	function deleteButton(){

@@ -1,9 +1,8 @@
 import React from 'react';
 
 //加入legao
-import { Button,Dialog,Select,Input,Drawer,message } from '@feb-team/legao-react';
+import { Button,Select,Input,Drawer,message } from '@feb-team/legao-react';
 import '@feb-team/legao-react/dist/styles/css/legao.all.css';
-import {CloseOutlined} from '@feb-team/legao-icons-react';
 
 
 class Condition extends React.Component {
@@ -43,14 +42,14 @@ class Condition extends React.Component {
 						<Select.Option value={"妖"}>妖</Select.Option>
 						<Select.Option value={"機"}>機</Select.Option>
 					</Select>
-					<Button onClick={()=>this.deleteItems(this.props)} style={{ position: 'absolute',top:"0px",right:"0px"} }><CloseOutlined/></Button>
+					<Button onClick={()=>this.deleteItems(this.props)} style={{ position: 'absolute',top:"0px",right:"0px"} }>刪除</Button>
 				</div>
 			);
 		else
 			return(
 				<div style={{ position: 'relative '} }>
 					<Input placeholder="系列" onChange={(value)=>{this.setState({Series:value})} } />
-					<Button onClick={()=>this.deleteItems(this.props)} style={{ position: 'absolute',top:"0px",right:"0px"} }><CloseOutlined/></Button>
+					<Button onClick={()=>this.deleteItems(this.props)} style={{ position: 'absolute',top:"0px",right:"0px"} }>刪除</Button>
 				</div>
 			);
 	}
@@ -82,8 +81,8 @@ class CardCondition extends React.PureComponent {
 				height={320}
 				placement={"right"}
 				title={<p>設定 屬性種族/系列 限制</p>}
-				mask={false}
-				maskClosable={false}
+				mask={true}
+				maskClosable={true}
 				zIndex={2000}
 				afterVisibleChange={()=> {}}
             >

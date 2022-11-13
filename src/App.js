@@ -1,4 +1,3 @@
-import './App.css';
 import React from 'react';
 
 //加入legao
@@ -9,7 +8,6 @@ import BasicInformation from './components/BasicInformation';
 import ActiveSkill from './components/ActiveSkill';
 import LeaderSkill from './components/LeaderSkill';
 
-import Appd from './App.jsx';
 var ActiveSkillList=[],LeaderSkillList=[];
 class App extends React.Component {
 
@@ -39,7 +37,7 @@ class App extends React.Component {
 					}
 				}}>
 					<Tabs.Panel key="0" label="基本資料" forceRender={true}>
-						<BasicInformation />
+						<BasicInformation  />
 					</Tabs.Panel>
 					<Tabs.Panel key="1" label="主動技能" forceRender={true}>
 						<ActiveSkill get={getActiveSkill} />
@@ -48,14 +46,12 @@ class App extends React.Component {
 						<LeaderSkill get={getLeaderSkill}/>
 					</Tabs.Panel>
 					<Tabs.Panel key="3" label="隊伍技能" forceRender={true}>
-					<Appd />	
 						
 					</Tabs.Panel>
 					<Tabs.Panel key="4" label="輸入/輸出" forceRender={true}>
 						<Textarea placeholder="basic" />
 					</Tabs.Panel>
 				</Tabs>
-				
 			</div>
 		);
 	}
