@@ -8,12 +8,15 @@ import BasicInformation from './components/BasicInformation';
 import ActiveSkill from './components/ActiveSkill';
 import LeaderSkill from './components/LeaderSkill';
 
+
 var ActiveSkillList=[],LeaderSkillList=[];
 class App extends React.Component {
 
 	constructor(props) {
 		super(props);
+
 		this.state = {
+			size: document.body.offsetWidth<528? (document.body.offsetWidth<447?'small':'normal') :'large',
 			ActiveSkill:[],
 			LeaderSkill:[]
 		}
@@ -29,11 +32,12 @@ class App extends React.Component {
 		const { Textarea } = Input;
 		return(
 			<div style={{  display: 'flex',justifyContent: 'center',alignItems: 'center' } }>
-				<Tabs type={"border"} defaultActiveKey={'0'} size={'normal'} onBeforeChange={(key)=>{return true}} onChange={(activeKey)=>{
+				<Tabs type={"border"} defaultActiveKey={'0'} size={this.state.size} onBeforeChange={(key)=>{return true}} onChange={(activeKey)=>{
 					if(activeKey==='4'){
 						this.setState({ActiveSkill:ActiveSkillList});
 						this.setState({LeaderSkill:LeaderSkillList});
 						console.log(ActiveSkillList);
+						console.log(LeaderSkillList);
 					}
 				}}>
 					<Tabs.Panel key="0" label="基本資料" forceRender={true}>
