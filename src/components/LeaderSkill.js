@@ -1,6 +1,11 @@
 import React, {useState} from 'react';
 import {DndContext,closestCenter,KeyboardSensor,MouseSensor,TouchSensor,useSensor,useSensors,} from '@dnd-kit/core';
 import {useSortable,SortableContext,sortableKeyboardCoordinates,verticalListSortingStrategy,} from '@dnd-kit/sortable';
+import {
+	restrictToVerticalAxis,
+	restrictToParentElement,
+	restrictToWindowEdges
+  } from '@dnd-kit/modifiers';
 import {CSS} from '@dnd-kit/utilities';
 
 import { Button,Select,Card } from '@feb-team/legao-react';
@@ -78,19 +83,21 @@ function LeaderSkillsList(props) {
 			<Select.Option value={"改變掉落"}>改變掉落</Select.Option>
 			<Select.Option value={"延秒"}>延秒</Select.Option>		
 		</Select>
-		
+		<div>
             <DndContext 
                 sensors={sensors}
                 collisionDetection={closestCenter}
                 onDragEnd={handleDragEnd1}
+				modifiers={[restrictToVerticalAxis,restrictToParentElement,restrictToWindowEdges]}
             >
-			<SortableContext 
-				items={items}
-				strategy={verticalListSortingStrategy}
-			>
-				{items.map(i => <LeaderSkills key={i.id} id={i.id} self={i} deleteItems={deleteItems} getList={getList}/>)}
-			</SortableContext>
-		</DndContext>
+				<SortableContext 
+					items={items}
+					strategy={verticalListSortingStrategy}
+				>
+					{items.map(i => <LeaderSkills key={i.id} id={i.id} self={i} deleteItems={deleteItems} getList={getList}/>)}
+				</SortableContext>
+			</DndContext>
+		</div>
 	</div>
 	);
 	function getList(){
