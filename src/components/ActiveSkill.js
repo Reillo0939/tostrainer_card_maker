@@ -1,9 +1,14 @@
 import React, {useState} from 'react';
 import {DndContext,closestCenter,KeyboardSensor,MouseSensor,TouchSensor,useSensor,useSensors,} from '@dnd-kit/core';
 import {useSortable,SortableContext,sortableKeyboardCoordinates,verticalListSortingStrategy,} from '@dnd-kit/sortable';
+import {
+	restrictToVerticalAxis,
+	restrictToParentElement,
+	restrictToWindowEdges
+  } from '@dnd-kit/modifiers';
 import {CSS} from '@dnd-kit/utilities';
 
-import { Button,Select,Collapse,Tabs,Input,InputNumber } from '@feb-team/legao-react';
+import { Button,Select,Tabs,Input,InputNumber,Card } from '@feb-team/legao-react';
 import '@feb-team/legao-react/dist/styles/css/legao.all.css';
 
 import CardCondition from './CardCondition';
@@ -25,12 +30,10 @@ function ActiveSkills(props) {
 	};
 	return (
 		<div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-			<Collapse iconPosition={"left"}>
-				<Collapse.Panel key = {props.id} header={props.name} icon={true}>
-					<p>{props.name}</p>
-					<CardCondition />
-				</Collapse.Panel>
-			</Collapse>
+			<Card>
+				<p>{props.name}</p>
+				<CardCondition />
+			</Card>
 			<Button onClick={deleteButton} style={{position:'absolute',right:'0px',top:'0px'}}>刪除</Button>
 		</div>
 	);
@@ -76,7 +79,7 @@ function ActiveSkillsList(props) {
 
 	return (
 	<div>
-		<Select defaultValue={SelectSkill} clear={false} placeholder={"請選擇"} onChange={(value)=>{SelectSkill=value} }>
+		<Select defaultValue={SelectSkill} clear={false} placeholder={"請選擇"} onChange={(value)=>{SelectSkill=value;addItems()} }>
 			<Select.Option value={"解鎖"}>解鎖</Select.Option>
 			<Select.Option value={"附加消除"}>附加消除</Select.Option>
 			<Select.Option value={"引爆符石"}>引爆符石</Select.Option>
@@ -94,56 +97,64 @@ function ActiveSkillsList(props) {
 			<Select.Option value={"變身"}>變身</Select.Option>
 			<Select.Option value={"合體"}>合體</Select.Option>			
 		</Select>
-		<Button style={{ position: 'absolute'} } onClick={addItems}>新增</Button>
 
 		<Tabs type={"card"} defaultActiveKey={selectSkillList} size={'normal'} onBeforeChange={(key)=>{return true} } onChange={(activeKey)=>{selectSkillList=activeKey}}>
 			<Tabs.Panel key="1" label="技能1" forceRender={true} style={{position:'relative'}}>
 				<Input placeholder="技能名稱" head="技能名稱" defaultValue={skill1Name} onChange={value=>skill1Name=value}/>
 				<InputNumber max={2147483647} min={0} decimalPlaces={1} defaultValue={skill1Cd} onChange={ value=>skill1Cd=Math.floor(value) } style={{position:'absolute',width:'150px',right:'0px',top:'0px'}}/>
-				<DndContext 
-					sensors={sensors}
-					collisionDetection={closestCenter}
-					onDragEnd={handleDragEnd1}
-				>
-					<SortableContext 
-						items={items1}
-						strategy={verticalListSortingStrategy}
+				<div>
+					<DndContext 
+						sensors={sensors}
+						collisionDetection={closestCenter}
+						onDragEnd={handleDragEnd1}
+						modifiers={[restrictToVerticalAxis,restrictToParentElement,restrictToWindowEdges]}
 					>
-						{items1.map(i => <ActiveSkills key={i.id} id={i.id} name={i.name} deleteItems={deleteItems} getList={getList}/>)}
-					</SortableContext>
-				</DndContext>
+						<SortableContext 
+							items={items1}
+							strategy={verticalListSortingStrategy}
+						>
+							{items1.map(i => <ActiveSkills key={i.id} id={i.id} name={i.name} deleteItems={deleteItems} getList={getList}/>)}
+						</SortableContext>
+					</DndContext>
+				</div>
 			</Tabs.Panel>
 			<Tabs.Panel key="2" label="技能2" forceRender={true} style={{position:'relative'}}>
 				<Input placeholder="技能名稱" head="技能名稱" defaultValue={skill2Name} onChange={value=>skill2Name=value}/>
 				<InputNumber max={2147483647} min={0} decimalPlaces={1} defaultValue={skill2Cd} onChange={ value=>skill2Cd=Math.floor(value) } style={{position:'absolute',width:'150px',right:'0px',top:'0px'}}/>
-				<DndContext 
-					sensors={sensors}
-					collisionDetection={closestCenter}
-					onDragEnd={handleDragEnd2}
-				>
-					<SortableContext 
-						items={items2}
-						strategy={verticalListSortingStrategy}
+				<div>
+					<DndContext 
+						sensors={sensors}
+						collisionDetection={closestCenter}
+						onDragEnd={handleDragEnd2}
+						modifiers={[restrictToVerticalAxis,restrictToParentElement,restrictToWindowEdges]}
 					>
-						{items2.map(i => <ActiveSkills key={i.id} id={i.id} name={i.name} deleteItems={deleteItems} getList={getList}/>)}
-					</SortableContext>
-				</DndContext>
+						<SortableContext 
+							items={items2}
+							strategy={verticalListSortingStrategy}
+						>
+							{items2.map(i => <ActiveSkills key={i.id} id={i.id} name={i.name} deleteItems={deleteItems} getList={getList}/>)}
+						</SortableContext>
+					</DndContext>
+				</div>
 			</Tabs.Panel>
 			<Tabs.Panel key="3" label="技能3" forceRender={true} style={{position:'relative'}}>
 				<Input placeholder="技能名稱" head="技能名稱" defaultValue={skill3Name} onChange={value=>skill3Name=value}/>
 				<InputNumber max={2147483647} min={0} decimalPlaces={1} defaultValue={skill3Cd} onChange={ value=>skill3Cd=Math.floor(value) } style={{position:'absolute',width:'150px',right:'0px',top:'0px'}}/>
-				<DndContext 
-					sensors={sensors}
-					collisionDetection={closestCenter}
-					onDragEnd={handleDragEnd3}
-				>
-					<SortableContext 
-						items={items3}
-						strategy={verticalListSortingStrategy}
+				<div>
+					<DndContext 
+						sensors={sensors}
+						collisionDetection={closestCenter}
+						onDragEnd={handleDragEnd3}
+						modifiers={[restrictToVerticalAxis,restrictToParentElement,restrictToWindowEdges]}
 					>
-						{items3.map(i => <ActiveSkills key={i.id} id={i.id} name={i.name} deleteItems={deleteItems} getList={getList}/>)}
-					</SortableContext>
-				</DndContext>
+						<SortableContext 
+							items={items3}
+							strategy={verticalListSortingStrategy}
+						>
+							{items3.map(i => <ActiveSkills key={i.id} id={i.id} name={i.name} deleteItems={deleteItems} getList={getList}/>)}
+						</SortableContext>
+					</DndContext>
+				</div>
 			</Tabs.Panel>
 		</Tabs>
 		</div>

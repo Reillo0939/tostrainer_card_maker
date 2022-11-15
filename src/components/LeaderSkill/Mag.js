@@ -4,7 +4,7 @@ import React from 'react';
 import { Select,InputNumber,Drawer,Card,Tooltip } from '@feb-team/legao-react';
 import '@feb-team/legao-react/dist/styles/css/legao.all.css';
 
-class Mag extends React.PureComponent {
+class Mag extends React.PureComponent{
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -13,8 +13,46 @@ class Mag extends React.PureComponent {
 			Element:'不限屬性',
 			Race:'全隊',
 			Type:'攻擊力',
-			Amplifier:'1'
+			Amplifier:'1',
+			set_skill:props.set_skill,
+			self:props.self,
 		}
+	}
+	compontDidMount() {
+        this.props.diyRef(this);
+    }
+	to_skill(){
+		let Element=this.state.Element;
+		let Race=this.state.Race;
+		let Type=this.state.Type;
+		let Amplifier=this.state.Amplifier;
+		switch (Element) {
+			case '不限屬性':Element="*"; break;
+			case '水屬性':Element="w"; break;
+			case '火屬性':Element="f"; break;
+			case '木屬性':Element="t"; break;
+			case '光屬性':Element="l"; break;
+			case '暗屬性':Element="d"; break;
+			default:
+		}
+		switch (Race) {
+			case '全隊':Race="*"; break;
+			case '神族':Race="G"; break;
+			case '魔族':Race="E"; break;
+			case '人類':Race="H"; break;
+			case '獸類':Race="A"; break;
+			case '龍類':Race="D"; break;
+			case '妖精':Race="S"; break;
+			case '機械':Race="M"; break;
+			default:
+		}
+		switch (Type) {
+			case '攻擊力':Type="A"; break;
+			case '生命力':Type="H"; break;
+			case '回復力':Type="R"; break;
+			default:
+		}
+		return "mag="+Element+","+Race+","+Type+","+Amplifier+";"
 	}
 	header(){
 		if(this.state.Element==="不限屬性")
@@ -25,6 +63,7 @@ class Mag extends React.PureComponent {
 			return this.state.Element+" "+this.state.Race+" "+this.state.Type+" "+this.state.Amplifier+"\n倍";
 	}
 	render() {
+		this.state.set_skill(this.state.self,this.to_skill());
 		return (
 			<React.Fragment>
 			<Card onClick={()=>{
@@ -35,8 +74,8 @@ class Mag extends React.PureComponent {
             <Drawer 
 				visible={this.state.visible}
 				className="test"
-				onClose={()=>this.setState({visible: false})}
-				close={true}
+				onClose={()=>{this.setState({visible: false})}}
+				close={false}
 				width={320}
 				height={320}
 				placement={"right"}
@@ -44,7 +83,6 @@ class Mag extends React.PureComponent {
 				mask={true}
 				maskClosable={true}
 				zIndex={0}
-				getContainer={null}
 				afterVisibleChange={()=> {}}
             >
 				<Tooltip title="選擇提升的屬性" placement={"Top"}>
@@ -109,7 +147,7 @@ class Mag extends React.PureComponent {
 							} } 
 						/>
 						</div>
-					</Tooltip>
+				</Tooltip>
             </Drawer>
 		</React.Fragment>
 		)

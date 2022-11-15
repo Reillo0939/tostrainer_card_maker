@@ -18,7 +18,7 @@ import DynaMag from './LeaderSkill/DynaMag';
 
 
 var SelectSkill="倍率";
-
+const set_skill=(self,text)=>{self.skill=text};
 function LeaderSkills(props) {
 	const {
 		attributes,
@@ -37,9 +37,9 @@ function LeaderSkills(props) {
 		
 		switch(props.self.name){
 			case '倍率':
-				return <Mag key={props.id} id={props.id} header={props.header}/>
+				return <Mag set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
 			case '動態倍率':
-				return <DynaMag key={props.id} id={props.id} header={props.header}/>
+				return <DynaMag self={props.self} id={props.id} header={props.header}/>
 			default:
 				return <Card><p>{props.self.name+'目前尚未設計'}</p></Card>
 			// do nothing
@@ -105,7 +105,7 @@ function LeaderSkillsList(props) {
 		return items;
 	}
 	function addItems(){
-		items.push({id:Date.now(),name:SelectSkill});
+		items.push({id:Date.now(),name:SelectSkill,skill:""});
 		setItems(items.concat([]));
 		getList();
 	}

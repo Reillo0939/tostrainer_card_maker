@@ -18,7 +18,8 @@ class App extends React.Component {
 		this.state = {
 			size: document.body.offsetWidth<528? (document.body.offsetWidth<447?'small':'normal') :'large',
 			ActiveSkill:[],
-			LeaderSkill:[]
+			LeaderSkill:[],
+			skill:''
 		}
 	}
 
@@ -34,10 +35,12 @@ class App extends React.Component {
 			<div style={{  display: 'flex',justifyContent: 'center',alignItems: 'center' } }>
 				<Tabs type={"border"} defaultActiveKey={'0'} size={this.state.size} onBeforeChange={(key)=>{return true}} onChange={(activeKey)=>{
 					if(activeKey==='4'){
-						this.setState({ActiveSkill:ActiveSkillList});
-						this.setState({LeaderSkill:LeaderSkillList});
-						console.log(ActiveSkillList);
-						console.log(LeaderSkillList);
+						//this.setState({ActiveSkill:ActiveSkillList});
+						//this.setState({LeaderSkill:LeaderSkillList});
+						this.setState({skill:LeaderSkillList.map(i=>i.skill).join('')});
+						
+						console.log(ActiveSkillList)
+						console.log(LeaderSkillList)
 					}
 				}}>
 					<Tabs.Panel key="0" label="基本資料" forceRender={true}>
@@ -53,7 +56,7 @@ class App extends React.Component {
 						
 					</Tabs.Panel>
 					<Tabs.Panel key="4" label="輸入/輸出" forceRender={true}>
-						<Textarea placeholder="basic" />
+						<Textarea value={this.state.skill} />
 					</Tabs.Panel>
 				</Tabs>
 			</div>
