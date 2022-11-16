@@ -52,7 +52,7 @@ class Mag extends React.PureComponent{
 			case '回復力':Type="R"; break;
 			default:
 		}
-		return "mag="+Element+","+Race+","+Type+","+Amplifier+";"
+		return `mag=${Element},${Race},${Type},${Amplifier};`
 	}
 	header(){
 		if(this.state.Element==="不限屬性")
