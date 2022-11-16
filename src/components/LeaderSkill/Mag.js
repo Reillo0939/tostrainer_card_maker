@@ -7,6 +7,9 @@ import '@feb-team/legao-react/dist/styles/css/legao.all.css';
 class Mag extends React.PureComponent{
 	constructor(props) {
 		super(props);
+		if(props.preset){
+
+		}
 		this.state = {
 			visible: false,
 			header:'全隊 攻擊力 1倍',
@@ -14,8 +17,6 @@ class Mag extends React.PureComponent{
 			Race:'全隊',
 			Type:'攻擊力',
 			Amplifier:'1',
-			set_skill:props.set_skill,
-			self:props.self,
 		}
 	}
 	to_skill(){
@@ -60,7 +61,7 @@ class Mag extends React.PureComponent{
 			return this.state.Element+" "+this.state.Race+" "+this.state.Type+" "+this.state.Amplifier+"\n倍";
 	}
 	render() {
-		this.state.set_skill(this.state.self,this.to_skill());
+		this.props.self.skill=this.to_skill();
 		return (
 			<React.Fragment>
 			<Card onClick={()=>{
