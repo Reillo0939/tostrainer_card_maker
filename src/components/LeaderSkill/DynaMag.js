@@ -14,8 +14,49 @@ class DynaMag extends React.PureComponent {
 			Type:'任意符石',
 			Element:'不限屬性',
 			Race:'全隊',
-			Amplifier:1
+			Amplifier:1,
+			set_skill:props.set_skill,
+			self:props.self,
 		}
+	}
+	to_skill(){
+		let Count=this.state.Count;
+		let Type=this.state.Type;
+		let Element=this.state.Element;
+		let Race=this.state.Race;
+		let Amplifier=this.state.Amplifier;
+		switch (Type) {
+			case '任意符石':Type="-1"; break;
+			case '水符石':Type="0"; break;
+			case '火符石':Type="1"; break;
+			case '木符石':Type="2"; break;
+			case '光符石':Type="3"; break;
+			case '暗符石':Type="4"; break;
+			case '心符石':Type="5"; break;
+			default:
+		}
+		switch (Element) {
+			case '不限屬性':Element="-1"; break;
+			case '水屬性':Element="0"; break;
+			case '火屬性':Element="1"; break;
+			case '木屬性':Element="2"; break;
+			case '光屬性':Element="3"; break;
+			case '暗屬性':Element="4"; break;
+			default:
+		}
+		switch (Race) {
+			case '全隊':Race="-1"; break;
+			case '神族':Race="0"; break;
+			case '魔族':Race="1"; break;
+			case '人類':Race="2"; break;
+			case '獸類':Race="3"; break;
+			case '龍類':Race="4"; break;
+			case '妖精':Race="5"; break;
+			case '機械':Race="6"; break;
+			default:
+		}
+		//dynaMag=1,0,-1,-1,5;
+		return `dynaMag=${Count},${Type},${Element},${Race},${Amplifier};`
 	}
 	header(){
 		let text=''
@@ -29,6 +70,7 @@ class DynaMag extends React.PureComponent {
 			return text+this.state.Element+' '+this.state.Race+" 攻擊力額外提升"+this.state.Amplifier+"\n倍";
 	}
 	render() {
+		this.state.set_skill(this.state.self,this.to_skill());
 		return (
 				<React.Fragment>
 				<Card onClick={()=>{

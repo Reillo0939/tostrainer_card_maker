@@ -18,9 +18,6 @@ class Mag extends React.PureComponent{
 			self:props.self,
 		}
 	}
-	compontDidMount() {
-        this.props.diyRef(this);
-    }
 	to_skill(){
 		let Element=this.state.Element;
 		let Race=this.state.Race;

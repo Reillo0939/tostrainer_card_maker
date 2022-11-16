@@ -39,7 +39,7 @@ function LeaderSkills(props) {
 			case '倍率':
 				return <Mag set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
 			case '動態倍率':
-				return <DynaMag self={props.self} id={props.id} header={props.header}/>
+				return <DynaMag set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
 			default:
 				return <Card><p>{props.self.name+'目前尚未設計'}</p></Card>
 			// do nothing
@@ -48,7 +48,7 @@ function LeaderSkills(props) {
 	return (
 		<div ref={setNodeRef} style={style} {...attributes} {...listeners}>
 			{skill()}
-			<Button onClick={deleteButton} style={{position:'absolute',right:'0px',top:'0px'}}>刪除</Button>
+			<Button onClick={deleteButton} size="small" style={{position:'absolute',right:'0px',top:'0px'}}>刪除</Button>
 		</div>
 	);
 	function deleteButton(){
@@ -83,7 +83,7 @@ function LeaderSkillsList(props) {
 			<Select.Option value={"改變掉落"}>改變掉落</Select.Option>
 			<Select.Option value={"延秒"}>延秒</Select.Option>		
 		</Select>
-		<div>
+		<div style={{width:'100%'}}>
             <DndContext 
                 sensors={sensors}
                 collisionDetection={closestCenter}
