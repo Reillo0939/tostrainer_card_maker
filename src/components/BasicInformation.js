@@ -20,7 +20,7 @@ class BasicInformation extends React.Component {
 		}
 	}
     return_basic(){
-        //123=b=456,3000,1500,400,w,G,789$$as=$$ls=使用自製卡片工具製作=s=$$ts=$$imgId=$$imgCrop=$$imgSrc=
+        //123=b=456,3000,1500,400,w,G,789
         let no=this.state.no;
         let name=this.state.name;
         let series=this.state.series;
@@ -48,7 +48,7 @@ class BasicInformation extends React.Component {
 			case '機':Race="M"; break;
 			default:
 		}
-        return `${no}=b=${name},${HP},${Atk},${Recover},${Element},${Race},${series}$$`;
+        return `${no}=b=${name},${HP},${Atk},${Recover},${Element},${Race},${series}`;
     }   
 	render(){
         this.state.set_Basic(this.state.Basic,this.return_basic());
