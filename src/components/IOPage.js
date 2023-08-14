@@ -1,5 +1,6 @@
 import React from 'react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 //加入legao
 import { Tabs,Input, Button } from '@feb-team/legao-react';
@@ -21,8 +22,8 @@ class IOPage extends React.PureComponent {
 			imgSrc:''
 		}
 	}
-	Input_process(){
-		let Input=this.state.Input;
+	Input_process(Input){
+		//let Input=this.state.Input;
 		let Input_split=Input.split('$$')
 		let as=-1,ls=-1,ts=-1,imgId=-1,imgCrop=-1,imgSrc=-1;
 		this.setState({basic:Input_split[0]})
@@ -71,20 +72,28 @@ class IOPage extends React.PureComponent {
 			this.props.test();
 		})
 	}
+	copyToClipboard() {
+		Clipboard.setString('hello world');
+	}
 	render(){
 		const { Textarea } = Input;
 		return(
 			<Tabs type={"card"} defaultActiveKey={'0'} size={'normal'} onBeforeChange={(key)=>{return true}}>
 				<Tabs.Panel key="0" label="輸出" forceRender={true}>
 					<Textarea value={this.props.Output} />
-					<CopyToClipboard text={this.props.Output}
-						onCopy={() => this.setState({copied: true})}>
-						<Button>一鍵複製</Button>
-					</CopyToClipboard>
+					<Button onClick={()=>Clipboard.setString(this.props.Output)}>
+						一鍵複製
+					</Button>
 				</Tabs.Panel>
 				<Tabs.Panel key="1" label="輸入" forceRender={true}>
-					<Textarea onChange={(Input)=>this.setState({Input})}/>
-					<Button onClick={()=>this.Input_process()}>輸入代碼</Button>
+					<Textarea value={this.state.Input}/>
+					<Button onClick={async ()=>{
+						const Input = await Clipboard.getString();
+						this.setState({Input});
+						this.Input_process(Input);
+					}}>
+						一鍵貼上
+					</Button>
 				</Tabs.Panel>
 			</Tabs>
 		);

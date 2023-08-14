@@ -13,6 +13,7 @@ import '@feb-team/legao-react/dist/styles/css/legao.all.css';
 
 import Mag from './LeaderSkill/Mag';
 import DynaMag from './LeaderSkill/DynaMag';
+import Dh from './LeaderSkill/Dh';
 
 
 
@@ -40,6 +41,8 @@ function LeaderSkills(props) {
 				return <Mag set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
 			case '動態倍率':
 				return <DynaMag set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
+			case '減傷':
+				return <Dh set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
 			default:
 				return <Card><p>{props.self.name+'目前尚未設計'}</p></Card>
 			// do nothing

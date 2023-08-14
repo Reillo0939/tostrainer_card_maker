@@ -7,9 +7,6 @@ import '@feb-team/legao-react/dist/styles/css/legao.all.css';
 class Mag extends React.PureComponent{
 	constructor(props) {
 		super(props);
-		if(props.preset){
-
-		}
 		this.state = {
 			visible: false,
 			header:'全隊 攻擊力 1倍',
