@@ -61,22 +61,22 @@ class DynaMag extends React.PureComponent {
 	header(){
 		let text=''
 		if(this.state.Count>0)
-			text+='消除'+this.state.Count+'粒'+this.state.Type+'時，';
+			text+='消除'+this.state.Count+'粒'+this.state.Type+'時，\n';
 		if(this.state.Element==="不限屬性")
 			return text+this.state.Race+" 攻擊力額外提升"+this.state.Amplifier+"倍";
 		else if(this.state.Race==="全隊")
 			return text+this.state.Element+" 攻擊力額外提升"+this.state.Amplifier+"倍";
 		else	
-			return text+this.state.Element+' '+this.state.Race+" 攻擊力額外提升"+this.state.Amplifier+"\n倍";
+			return text+this.state.Element+' '+this.state.Race+" 攻擊力額外提升"+this.state.Amplifier+"倍";
 	}
 	render() {
 		this.state.set_skill(this.state.self,this.to_skill());
 		return (
 				<React.Fragment>
-				<Card onClick={()=>{
+				<Card shadow={'always'} onClick={()=>{
 					this.setState({	visible: true})
 				}}>
-					<p>{this.state.header}</p>
+					{this.state.header.split('\n').map(i=><p>{i}</p>)}
 				</Card>
 				<Drawer 
 					visible={this.state.visible}
@@ -93,7 +93,7 @@ class DynaMag extends React.PureComponent {
 					getContainer={null}
 					afterVisibleChange={()=> {}}
             	>
-					<Tooltip title="輸入需要消除的符石數量" placement={"Top"}>
+					<Tooltip title="輸入需要消除的符石數量" placement={"Left"}>
 						<div>
 							<InputNumber style={{width:'200px'}} defaultValue={this.state.Count} max={9223372036854775807} min={0} decimalPlaces={3} step={1} 
 							onChange={(Count)=>{
@@ -106,7 +106,7 @@ class DynaMag extends React.PureComponent {
 							/>
 						</div>
 					</Tooltip>
-					<Tooltip title="選擇需要消除的符石屬性" placement={"Top"}>
+					<Tooltip title="選擇需要消除的符石屬性" placement={"Left"}>
 						<div>
 							<Select defaultValue={this.state.Type} clear={false} placeholder={"請選擇"} 
 							onChange={(Type)=>{
@@ -125,7 +125,7 @@ class DynaMag extends React.PureComponent {
 						</div>
 					</Tooltip>
 					
-					<Tooltip title="選擇攻擊力提升的屬性" placement={"Top"}>
+					<Tooltip title="選擇攻擊力提升的屬性" placement={"Left"}>
 						<div>
 							<Select defaultValue={this.state.Element} clear={false} placeholder={"請選擇"} 
 							onChange={(Element)=>{
@@ -142,7 +142,7 @@ class DynaMag extends React.PureComponent {
 							</Select>
 						</div>
 					</Tooltip>
-					<Tooltip title="選擇攻擊力提升的種族" placement={"Top"}>
+					<Tooltip title="選擇攻擊力提升的種族" placement={"Left"}>
 						<div>
 							<Select defaultValue={this.state.Race} clear={false} placeholder={"請選擇"} 
 							onChange={(Race)=>{
@@ -161,7 +161,7 @@ class DynaMag extends React.PureComponent {
 							</Select>
 						</div>
 					</Tooltip>
-					<Tooltip title="輸入攻擊力提升的倍率" placement={"Top"}>
+					<Tooltip title="輸入攻擊力提升的倍率" placement={"Left"}>
 						<div>
 							<InputNumber style={{width:'200px'}} defaultValue={this.state.Amplifier} max={9223372036854775807} min={0} decimalPlaces={3} step={0.1}
 								onChange={(Amplifier)=>{

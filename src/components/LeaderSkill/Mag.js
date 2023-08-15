@@ -61,10 +61,10 @@ class Mag extends React.PureComponent{
 		this.props.self.skill=this.to_skill();
 		return (
 			<React.Fragment>
-			<Card onClick={()=>{
+			<Card shadow={'always'} onClick={()=>{
 				this.setState({	visible: true})
             }}>
-				<p>{this.state.header}</p>
+				{this.state.header.split('\n').map(i=><p>{i}</p>)}
 			</Card>
             <Drawer 
 				visible={this.state.visible}
@@ -80,7 +80,7 @@ class Mag extends React.PureComponent{
 				zIndex={0}
 				afterVisibleChange={()=> {}}
             >
-				<Tooltip title="選擇提升的屬性" placement={"Top"}>
+				<Tooltip title="選擇提升的屬性" placement={"Left"}>
 						<div>
 							<Select defaultValue={this.state.Element} clear={false} placeholder={"請選擇"} 
 							onChange={(Element)=>{
@@ -97,7 +97,7 @@ class Mag extends React.PureComponent{
 							</Select>
 						</div>
 				</Tooltip>
-				<Tooltip title="選擇提升的種族" placement={"Top"}>
+				<Tooltip title="選擇提升的種族" placement={"Left"}>
 						<div>
 						<Select defaultValue={this.state.Race} clear={false} placeholder={"請選擇"} 
 							onChange={(Race)=>{
@@ -116,7 +116,7 @@ class Mag extends React.PureComponent{
 							</Select>
 						</div>
 				</Tooltip>
-				<Tooltip title="選擇提升的種類" placement={"Top"}>
+				<Tooltip title="選擇提升的種類" placement={"Left"}>
 						<div>
 							<Select defaultValue={this.state.Type} clear={false} placeholder={"請選擇"} 
 							onChange={(Type)=>{
@@ -130,7 +130,7 @@ class Mag extends React.PureComponent{
 							</Select>
 						</div>
 				</Tooltip>
-				<Tooltip title="輸入攻擊力提升的倍率" placement={"Top"}>
+				<Tooltip title="輸入攻擊力提升的倍率" placement={"Left"}>
 						<div>
 							<InputNumber defaultValue={this.state.Amplifier} max={9223372036854775807} min={0} decimalPlaces={3} step={0.1} style={{width:'200px'}} 
 							onChange={(Amplifier)=>{

@@ -14,8 +14,10 @@ import '@feb-team/legao-react/dist/styles/css/legao.all.css';
 import Mag from './LeaderSkill/Mag';
 import DynaMag from './LeaderSkill/DynaMag';
 import Dh from './LeaderSkill/Dh';
-
-
+import Dsv from './LeaderSkill/Dsv';
+import Possess from './LeaderSkill/Possess';
+import Gsbc from './LeaderSkill/Gsbc';
+import Addtime from './LeaderSkill/Addtime';
 
 
 var SelectSkill="倍率";
@@ -43,6 +45,14 @@ function LeaderSkills(props) {
 				return <DynaMag set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
 			case '減傷':
 				return <Dh set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
+			case '改變消除方式':
+				return <Dsv set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
+			case '兼具':
+				return <Possess set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
+			case '改變掉落':
+				return <Gsbc set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
+			case '延秒':
+				return <Addtime set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
 			default:
 				return <Card><p>{props.self.name+'目前尚未設計'}</p></Card>
 			// do nothing

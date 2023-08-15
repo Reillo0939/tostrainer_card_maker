@@ -36,19 +36,19 @@ class Dh extends React.PureComponent{
 		if(this.state.HPGT>0)
 			text+= "我方生命值大於等於"+this.state.HPGT+"%";
 		if(this.state.AC>0){
-			if(text!='')
-				text+="，且";
+			if(text!=='')
+				text+="，\n且";
 			text+= "消除"+this.state.AC+"種以上符石";
 		}
-		if(this.state.AI){
-			if(text!='')
-				text+="，且";
+		if(this.state.AI.length>0){
+			if(text!=='')
+				text+="，\n且";
 			if(this.state.AI.length>1)
 				text+="同時"
 			text+= "消除"+this.state.AI.join("、")+"符石";
 		}
-		if(text!='')
-				text+="時，";
+		if(text!=='')
+				text+="時，\n";
 		text+= "減少 "+ this.state.Percentage+"% 所受傷害";
 		return text;
 	}
@@ -56,10 +56,10 @@ class Dh extends React.PureComponent{
 		this.props.self.skill=this.to_skill();
 		return (
 			<React.Fragment>
-			<Card onClick={()=>{
+			<Card shadow={'always'} onClick={()=>{
 				this.setState({	visible: true})
             }}>
-				<p>{this.state.header}</p>
+				{this.state.header.split('\n').map(i=><p>{i}</p>)}
 			</Card>
             <Drawer 
 				visible={this.state.visible}
@@ -75,7 +75,7 @@ class Dh extends React.PureComponent{
 				zIndex={0}
 				afterVisibleChange={()=> {}}
             >
-				<Tooltip title="輸入減傷的比例" placement={"Top"}>
+				<Tooltip title="輸入減傷的比例" placement={"Left"}>
 						<div>
 							<InputNumber defaultValue={this.state.Percentage} max={100} min={0} decimalPlaces={3} step={1} style={{width:'200px'}} 
 							onChange={(Percentage)=>{
@@ -88,7 +88,7 @@ class Dh extends React.PureComponent{
 						/>
 						</div>
 				</Tooltip>
-				<Tooltip title="輸入達成條件所需最低的血量比例" placement={"Top"}>
+				<Tooltip title="輸入達成條件所需最低的血量比例" placement={"Left"}>
 						<div>
 							<InputNumber defaultValue={this.state.HPGT} max={100} min={0} decimalPlaces={3} step={1} style={{width:'200px'}} 
 							onChange={(HPGT)=>{
@@ -101,7 +101,7 @@ class Dh extends React.PureComponent{
 						/>
 						</div>
 				</Tooltip>
-				<Tooltip title="輸入達成條件所需消除的符石種類數" placement={"Top"}>
+				<Tooltip title="輸入達成條件所需消除的符石種類數" placement={"Left"}>
 						<div>
 							<InputNumber defaultValue={this.state.AC} max={6} min={0} decimalPlaces={3} step={1} style={{width:'200px'}} 
 							onChange={(AC)=>{
@@ -114,7 +114,7 @@ class Dh extends React.PureComponent{
 						/>
 						</div>
 				</Tooltip>
-				<Tooltip title="輸入達成條件所需同時消除的符石種類" placement={"Top"}>
+				<Tooltip title="輸入達成條件所需同時消除的符石種類" placement={"Left"}>
 						<div>
 							<Checkbox.Group onChange={(AI)=>{
 								this.setState({AI},()=>{
