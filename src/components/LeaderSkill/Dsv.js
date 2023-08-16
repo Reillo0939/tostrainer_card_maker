@@ -1,4 +1,5 @@
 import React from 'react';
+import { v1 as uuidv1 } from 'uuid';
 
 //加入legao
 import { Select,Drawer,Card,Tooltip } from '@feb-team/legao-react';
@@ -7,11 +8,30 @@ import '@feb-team/legao-react/dist/styles/css/legao.all.css';
 class Dsv extends React.PureComponent{
 	constructor(props) {
 		super(props);
+		let header='2 粒或以上的水符石相連即可發動消除',
+			Count=2,
+			Element='水';
+		if(props.init!==''){
+			let data=props.init.split("=")[1].split(",");
+			//`dsv=${Count},${Element};`
+			Count=data[0];
+			switch (data[1]) {
+				case '*':Element="任何"; break;
+				case 'w':Element="水"; break;
+				case 'f':Element="火"; break;
+				case 't':Element="木"; break;
+				case 'l':Element="光"; break;
+				case 'd':Element="暗"; break;
+				case 'h':Element="心"; break;
+				default:
+			}
+			header=this.header(Count,Element);
+		}
 		this.state = {
 			visible: false,
-			header:'2 粒或以上的水符石相連即可發動消除',
-			Count:2,
-			Element:'水',
+			header:header,
+			Count:Count,
+			Element:Element,
 		}
 	}
 	to_skill(){
@@ -29,8 +49,8 @@ class Dsv extends React.PureComponent{
 		}
 		return `dsv=${Count},${Element};`
 	}
-	header(){
-		return `${this.state.Count} 粒或以上的${this.state.Element}符石相連即可發動消除`;
+	header(Count=this.state.Count,Element=this.state.Element){
+		return `${Count} 粒或以上的${Element}符石相連即可發動消除`;
 	}
 	render() {
 		this.props.self.skill=this.to_skill();
@@ -39,7 +59,7 @@ class Dsv extends React.PureComponent{
 			<Card shadow={'always'} onClick={()=>{
 				this.setState({	visible: true})
             }}>
-				{this.state.header.split('\n').map(i=><p>{i}</p>)}
+				{this.state.header.split('\n').map(i=><p key={uuidv1()}>{i}</p>)}
 			</Card>
             <Drawer 
 				visible={this.state.visible}

@@ -69,6 +69,7 @@ class IOPage extends React.PureComponent {
 			this.props.Input.imgId=this.state.imgId;
 			this.props.Input.imgCrop=this.state.imgCrop;
 			this.props.Input.imgSrc=this.state.imgSrc;
+			this.props.Input.time=Date.now();
 			this.props.test();
 		})
 	}

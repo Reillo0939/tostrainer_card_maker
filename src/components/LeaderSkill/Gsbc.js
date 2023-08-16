@@ -1,4 +1,5 @@
 import React from 'react';
+import { v1 as uuidv1 } from 'uuid';
 
 //加入legao
 import { Select,InputNumber,Drawer,Card,Tooltip } from '@feb-team/legao-react';
@@ -7,13 +8,46 @@ import '@feb-team/legao-react/dist/styles/css/legao.all.css';
 class Gsbc extends React.PureComponent {
 	constructor(props) {
 		super(props);
+		let header='每首批消除 1 組符石，\n掉落 1 粒水符石',
+			Count=1,
+			Type='隨機',
+			Drop=1,
+			Element='水';
+
+		if(props.init!==''){
+			let data=props.init.split("=")[1].split(",");
+			//`gsbc=${Count},${Type},${Drop},${Element},-1;`
+			Count=data[0];
+			switch (data[1]) {
+				case 'RDM':Type="隨機"; break;
+				case 'SLF':Type="自身直行"; break;
+				default:
+			}
+			Drop=data[2];
+			switch (data[3]) {
+				case '0':Element="水"; break;
+				case '1':Element="火"; break;
+				case '2':Element="木"; break;
+				case '3':Element="光"; break;
+				case '4':Element="暗"; break;
+				case '5':Element="心"; break;
+				case '6':Element="水強化"; break;
+				case '7':Element="火強化"; break;
+				case '8':Element="木強化"; break;
+				case '9化':Element="光強化"; break;
+				case '10':Element="暗強化"; break;
+				case '11':Element="心強化"; break;
+				default:
+			}
+			header=this.header(Count,Type,Drop,Element);
+		}
 		this.state = {
 			visible: false,
-			header:'每首批消除 1 組符石，\n掉落 1 粒水符石',
-			Count:1,
-			Type:'隨機',
-			Drop:1,
-			Element:'水',
+			header:header,
+			Count:Count,
+			Type:Type,
+			Drop:Drop,
+			Element:Element,
 			set_skill:props.set_skill,
 			self:props.self,
 		}
@@ -45,8 +79,8 @@ class Gsbc extends React.PureComponent {
 		}
 		return `gsbc=${Count},${Type},${Drop},${Element},-1;`
 	}
-	header(){
-		return `每首批消除 ${this.state.Count} 組符石，\n${this.state.Type==="自身直行"?"自身直行":""}掉落 ${this.state.Drop} 粒${this.state.Element}符石`;
+	header(Count=this.state.Count,Type=this.state.Type,Drop=this.state.Drop,Element=this.state.Element){
+		return `每首批消除 ${Count} 組符石，\n${Type==="自身直行"?"自身直行":""}掉落 ${Drop} 粒${Element}符石`;
 	}
 	render() {
 		this.state.set_skill(this.state.self,this.to_skill());
@@ -55,7 +89,7 @@ class Gsbc extends React.PureComponent {
 				<Card shadow={'always'} onClick={()=>{
 					this.setState({	visible: true})
 				}}>
-					{this.state.header.split('\n').map(i=><p>{i}</p>)}
+					{this.state.header.split('\n').map(i=><p key={uuidv1()}>{i}</p>)}
 				</Card>
 				<Drawer 
 					visible={this.state.visible}

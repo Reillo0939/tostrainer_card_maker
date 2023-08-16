@@ -1,4 +1,5 @@
 import React from 'react';
+import { v1 as uuidv1 } from 'uuid';
 
 //加入legao
 import { Select,InputNumber,Drawer,Card,Tooltip } from '@feb-team/legao-react';
@@ -7,13 +8,51 @@ import '@feb-team/legao-react/dist/styles/css/legao.all.css';
 class Mag extends React.PureComponent{
 	constructor(props) {
 		super(props);
+		let header='全隊 攻擊力 1倍',
+			Element='不限屬性',
+			Race='全隊',
+			Type='攻擊力',
+			Amplifier='1';
+		if(props.init!==''){
+			let data=props.init.split("=")[1].split(",");
+			//`mag=${Element},${Race},${Type},${Amplifier};`
+			switch (data[0]) {
+				case '*':Element="不限屬性"; break;
+				case 'w':Element="水屬性"; break;
+				case 'f':Element="火屬性"; break;
+				case 't':Element="木屬性"; break;
+				case 'l':Element="光屬性"; break;
+				case 'd':Element="暗屬性"; break;
+				default:
+			}
+			switch (data[1]) {
+				case '*':Race="全隊"; break;
+				case 'G':Race="神族"; break;
+				case 'E':Race="魔族"; break;
+				case 'H':Race="人類"; break;
+				case 'A':Race="獸類"; break;
+				case 'D':Race="龍類"; break;
+				case 'S':Race="妖精"; break;
+				case 'M':Race="機械"; break;
+				default:
+			}
+			switch (data[2]) {
+				case 'A':Type="攻擊力"; break;
+				case 'H':Type="生命力"; break;
+				case 'R':Type="回復力"; break;
+				default:
+			}
+			Amplifier=data[3]
+
+			header=this.header(Element,Race,Type,Amplifier);
+		}
 		this.state = {
 			visible: false,
-			header:'全隊 攻擊力 1倍',
-			Element:'不限屬性',
-			Race:'全隊',
-			Type:'攻擊力',
-			Amplifier:'1',
+			header:header,
+			Element:Element,
+			Race:Race,
+			Type:Type,
+			Amplifier:Amplifier,
 		}
 	}
 	to_skill(){
@@ -49,13 +88,8 @@ class Mag extends React.PureComponent{
 		}
 		return `mag=${Element},${Race},${Type},${Amplifier};`
 	}
-	header(){
-		if(this.state.Element==="不限屬性")
-			return this.state.Race+" "+this.state.Type+" "+this.state.Amplifier+"倍";
-		else if(this.state.Race==="全隊")
-			return this.state.Element+" "+this.state.Type+" "+this.state.Amplifier+"倍";
-		else	
-			return this.state.Element+" "+this.state.Race+" "+this.state.Type+" "+this.state.Amplifier+"\n倍";
+	header(Element,Race,Type,Amplifier){
+		return `${Element==="不限屬性"?"":Element} ${Element!=="不限屬性"&&Race==="全隊"?"":Race} ${Type} ${Amplifier}倍`;
 	}
 	render() {
 		this.props.self.skill=this.to_skill();
@@ -64,7 +98,7 @@ class Mag extends React.PureComponent{
 			<Card shadow={'always'} onClick={()=>{
 				this.setState({	visible: true})
             }}>
-				{this.state.header.split('\n').map(i=><p>{i}</p>)}
+				{this.state.header.split('\n').map(i=><p key={uuidv1()}>{i}</p>)}
 			</Card>
             <Drawer 
 				visible={this.state.visible}

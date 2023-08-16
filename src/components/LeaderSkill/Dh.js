@@ -1,4 +1,5 @@
 import React from 'react';
+import { v1 as uuidv1 } from 'uuid';
 
 //加入legao
 import { Checkbox,InputNumber,Drawer,Card,Tooltip } from '@feb-team/legao-react';
@@ -7,13 +8,36 @@ import '@feb-team/legao-react/dist/styles/css/legao.all.css';
 class Dh extends React.PureComponent{
 	constructor(props) {
 		super(props);
+		let header='減少 0% 所受傷害',
+		 	Percentage = 0,
+		 	HPGT= 0,
+		 	AC= 0,
+		 	AI= [];
+		if(props.init!==''){
+			let data=props.init.split("=")
+			//`dh = IdrOnly = 0,p = ${Percentage},condiHpGt = ${HPGT},condiAC = ${AC},condiAI = ${AI};`
+			Percentage=data[3].split(',')[0]
+			HPGT=data[4].split(',')[0]
+			AC=data[5].split(',')[0]
+			console.log(data )
+			AI=data[6] 
+				.replace("0","水")
+				.replace("1","火")
+				.replace("2","木")
+				.replace("3","光")
+				.replace("4","暗")
+				.replace("6","心")
+				.replace("_","")
+				.split('');
+			header=this.header(Percentage,HPGT,AC,AI);
+		}
 		this.state = {
 			visible: false,
-			header: '減少 0% 所受傷害',
-			Percentage: 0,//減傷量
-			HPGT: 0,//HP大於多少
-			AC: 0,//消幾種符石
-			AI: [],//同時消指定種符石
+			header: header,
+			Percentage: Percentage,//減傷量
+			HPGT: HPGT,//HP大於多少
+			AC: AC,//消幾種符石
+			AI: AI,//同時消指定種符石
 			
 		}
 	}
@@ -22,34 +46,43 @@ class Dh extends React.PureComponent{
 		let HPGT=this.state.HPGT;
 		let AC=this.state.AC;
 		let AI=this.state.AI;
-		AI=AI.join("")
-			 .replace("水",0)
-			 .replace("火",1)
-			 .replace("木",2)
-			 .replace("光",3)
-			 .replace("暗",4)
-			 .replace("心",5);
-		return `dh=p=${Percentage},condiHpGt=${HPGT},condiAC=${AC},condiAI${AI};`
+		if(AI.length>0)
+			AI=AI.join("")
+				.replace("水",0)
+				.replace("火",1)
+				.replace("木",2)
+				.replace("光",3)
+				.replace("暗",4)
+				.replace("心",5);
+		else
+			AI="_"
+		
+		return `dh=IdrOnly=0,p=${Percentage},condiHpGt=${HPGT},condiAC=${AC},condiAI=${AI};`
 	}
-	header(){
+	header(
+		Percentage=this.state.Percentage,
+		HPGT=this.state.HPGT,
+		AC=this.state.AC,
+		AI=this.state.AI
+	){
 		let text='';
-		if(this.state.HPGT>0)
-			text+= "我方生命值大於等於"+this.state.HPGT+"%";
-		if(this.state.AC>0){
+		if(HPGT>0)
+			text+= "我方生命值大於等於"+HPGT+"%";
+		if(AC>0){
 			if(text!=='')
 				text+="，\n且";
-			text+= "消除"+this.state.AC+"種以上符石";
+			text+= "消除"+AC+"種以上符石";
 		}
-		if(this.state.AI.length>0){
+		if(AI.length>0){
 			if(text!=='')
 				text+="，\n且";
-			if(this.state.AI.length>1)
+			if(AI.length>1)
 				text+="同時"
-			text+= "消除"+this.state.AI.join("、")+"符石";
+			text+= "消除"+AI.join("、")+"符石";
 		}
 		if(text!=='')
 				text+="時，\n";
-		text+= "減少 "+ this.state.Percentage+"% 所受傷害";
+		text+= "減少 "+ Percentage+"% 所受傷害";
 		return text;
 	}
 	render() {
@@ -59,7 +92,7 @@ class Dh extends React.PureComponent{
 			<Card shadow={'always'} onClick={()=>{
 				this.setState({	visible: true})
             }}>
-				{this.state.header.split('\n').map(i=><p>{i}</p>)}
+				{this.state.header.split('\n').map(i=><p key={uuidv1()}>{i}</p>)}
 			</Card>
             <Drawer 
 				visible={this.state.visible}

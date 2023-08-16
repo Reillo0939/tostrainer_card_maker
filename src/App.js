@@ -25,11 +25,12 @@ class App extends React.Component {
 			ActiveSkill:'',
 			LeaderSkill:'',
 			Output:'',
-			Input:{basic:'',as:'',ls:'' ,ts:'',imgId:'',imgCrop:'',imgSrc:''}
+			Input:{basic:'',as:'',ls:'' ,ts:'',imgId:'',imgCrop:'',imgSrc:'',time:Date.now()}
 		}
 	}
 	test(){
 		this.setState({});
+		console.log(this.state.Input)
 	}
 	render(){
 		function getActiveSkill(list){
@@ -47,9 +48,9 @@ class App extends React.Component {
 							LeaderSkill:`$$ls=${time()}=s=${LeaderSkillList.map(i=>i.skill).join('')}`
 						},
 						()=>this.setState({Output:this.state.Basic.text+this.state.ActiveSkill+this.state.LeaderSkill+'$$ts=$$imgId=$$imgCrop=$$imgSrc='}));
-						console.log(ActiveSkillList)
-						console.log(LeaderSkillList)
-						console.log(this.state.Output)
+						//console.log(ActiveSkillList)
+						//console.log(LeaderSkillList)
+						//console.log(this.state.Output)
 					}
 				}}>
 					<Tabs.Panel key="0" label="基本資料" forceRender={true}>
@@ -59,7 +60,7 @@ class App extends React.Component {
 						<ActiveSkill get={getActiveSkill} />
 					</Tabs.Panel>
 					<Tabs.Panel key="2" label="隊長技能" forceRender={true}>
-						<LeaderSkill get={getLeaderSkill}/>
+						<LeaderSkill get={getLeaderSkill} Input={this.state.Input}/>
 					</Tabs.Panel>
 					<Tabs.Panel key="3" label="隊伍技能" forceRender={true}>
 						

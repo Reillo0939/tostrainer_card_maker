@@ -1,4 +1,5 @@
 import React from 'react';
+import { v1 as uuidv1 } from 'uuid';
 
 //加入legao
 import { Select,InputNumber,Drawer,Card,Tooltip } from '@feb-team/legao-react';
@@ -7,14 +8,57 @@ import '@feb-team/legao-react/dist/styles/css/legao.all.css';
 class DynaMag extends React.PureComponent {
 	constructor(props) {
 		super(props);
+		let header='全隊 攻擊力額外提升1倍',
+			Count=0,
+			Type='任意符石',
+			Element='任意屬性',
+			Race='全隊',
+			Amplifier=1;
+		if(props.init!==''){
+			let data=props.init.split("=")[1].split(",");
+			//`dynaMag=${Count},${Type},${Element},${Race},${Amplifier};`
+			Count=data[0];
+			switch (data[1]) {
+				case '-1':Type="任意符石"; break;
+				case '0':Type="水符石"; break;
+				case '1':Type="火符石"; break;
+				case '2':Type="木符石"; break;
+				case '3':Type="光符石"; break;
+				case '4':Type="暗符石"; break;
+				case '5':Type="心符石"; break;
+				default:
+			}
+			switch (data[2]) {
+				case '-1':Element="任意屬性"; break;
+				case '0':Element="水屬性"; break;
+				case '1':Element="火屬性"; break;
+				case '2':Element="木屬性"; break;
+				case '3':Element="光屬性"; break;
+				case '4':Element="暗屬性"; break;
+				default:
+			}
+			switch (data[3]) {
+				case '-1':Race="全隊"; break;
+				case '0':Race="神族"; break;
+				case '1':Race="魔族"; break;
+				case '2':Race="人類"; break;
+				case '3':Race="獸類"; break;
+				case '4':Race="龍類"; break;
+				case '5':Race="妖精"; break;
+				case '6':Race="機械"; break;
+				default:
+			}
+			Amplifier=data[4];
+			header=this.header(Count,Type,Element,Race,Amplifier);
+		}
 		this.state = {
 			visible: false,
-			header:'全隊 攻擊力額外提升1倍',
-			Count:0,
-			Type:'任意符石',
-			Element:'不限屬性',
-			Race:'全隊',
-			Amplifier:1,
+			header:header,
+			Count:Count,
+			Type:Type,
+			Element:Element,
+			Race:Race,
+			Amplifier:Amplifier,
 			set_skill:props.set_skill,
 			self:props.self,
 		}
@@ -36,7 +80,7 @@ class DynaMag extends React.PureComponent {
 			default:
 		}
 		switch (Element) {
-			case '不限屬性':Element="-1"; break;
+			case '任意屬性':Element="-1"; break;
 			case '水屬性':Element="0"; break;
 			case '火屬性':Element="1"; break;
 			case '木屬性':Element="2"; break;
@@ -58,16 +102,9 @@ class DynaMag extends React.PureComponent {
 		//dynaMag=1,0,-1,-1,5;
 		return `dynaMag=${Count},${Type},${Element},${Race},${Amplifier};`
 	}
-	header(){
-		let text=''
-		if(this.state.Count>0)
-			text+='消除'+this.state.Count+'粒'+this.state.Type+'時，\n';
-		if(this.state.Element==="不限屬性")
-			return text+this.state.Race+" 攻擊力額外提升"+this.state.Amplifier+"倍";
-		else if(this.state.Race==="全隊")
-			return text+this.state.Element+" 攻擊力額外提升"+this.state.Amplifier+"倍";
-		else	
-			return text+this.state.Element+' '+this.state.Race+" 攻擊力額外提升"+this.state.Amplifier+"倍";
+	header(Count=this.state.Count,Type=this.state.Type,Element=this.state.Element,Race=this.state.Race,Amplifier=this.state.Amplifier){
+		let text=`消除${Count}粒${Type}時，\n${Element==='任意屬性'?'':Element}${Element!=='任意屬性'&&Race==='全隊'? '':Race}攻擊力額外提升${Amplifier}倍`
+		return text;
 	}
 	render() {
 		this.state.set_skill(this.state.self,this.to_skill());
@@ -76,7 +113,7 @@ class DynaMag extends React.PureComponent {
 				<Card shadow={'always'} onClick={()=>{
 					this.setState({	visible: true})
 				}}>
-					{this.state.header.split('\n').map(i=><p>{i}</p>)}
+					{this.state.header.split('\n').map(i=><p key={uuidv1()}>{i}</p>)}
 				</Card>
 				<Drawer 
 					visible={this.state.visible}
@@ -133,7 +170,7 @@ class DynaMag extends React.PureComponent {
 									this.setState({header:this.header()});
 								});
 							}}>
-								<Select.Option value={"不限屬性"}>不限屬性</Select.Option>
+								<Select.Option value={"任意屬性"}>任意屬性</Select.Option>
 								<Select.Option value={"水屬性"}>水屬性</Select.Option>
 								<Select.Option value={"火屬性"}>火屬性</Select.Option>
 								<Select.Option value={"木屬性"}>木屬性</Select.Option>

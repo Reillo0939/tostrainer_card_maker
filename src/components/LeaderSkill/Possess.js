@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { v1 as uuidv1 } from 'uuid';
 
 //加入legao
 import { Select,InputNumber,Drawer,Card,Tooltip,Button,Checkbox,message } from '@feb-team/legao-react';
@@ -96,14 +97,60 @@ function Possess_subsystem(props) {
 class Possess extends React.PureComponent {
 	constructor(props) {
 		super(props);
+		let header='水符石兼具 100% 水符石效果',
+			LeaderOnly=false,
+			items=[
+				{id:uuidv1(),data:{Possess_1:"水",Possess_2:"水",Amplifier:100}}
+			];
+		if(props.init!==''){
+			let data=props.init.split("=")[1].split(",");
+			//`possess=${LeaderOnly},${Possess_1},${Possess_2},${Amplifier};`
+			LeaderOnly=data[0]==='1'?true:false;
+			console.log(LeaderOnly)
+			let Possess_1=data[1]
+				.replaceAll(0,"水")
+				.replaceAll(1,"火")
+				.replaceAll(2,"木")
+				.replaceAll(3,"光")
+				.replaceAll(4,"暗")
+				.replaceAll(5,"心")
+				.replaceAll(6,"所有屬性")
+				.replaceAll(7,"所有")
+				.split('_')
+
+			let Possess_2=data[2]
+				.replaceAll(0,"水")
+				.replaceAll(1,"火")
+				.replaceAll(2,"木")
+				.replaceAll(3,"光")
+				.replaceAll(4,"暗")
+				.replaceAll(5,"心")
+				.replaceAll(6,"其他屬性")
+				.split('_')
+			
+			let Amplifier=data[3].split('_');
+			
+			items=[];
+			Possess_1.forEach((value,index)=>{
+				items.push(
+					{
+						id:uuidv1(),
+						data:{
+							Possess_1:Possess_1[index],
+							Possess_2:Possess_2[index],
+							Amplifier:Amplifier[index]
+						}
+					}
+				)	
+			})
+			header=this.header(items,LeaderOnly);
+		}
+
 		this.state = {
 			visible: false,
-			auto:false,
-			header:'水符石兼具 100% 水符石效果',
-			items:[
-				{id:Date.now(),data:{Possess_1:"水",Possess_2:"水",Amplifier:100}}
-			],
-			LeaderOnly:false,
+			header:header,
+			items:items,
+			LeaderOnly:LeaderOnly,
 			set_skill:props.set_skill,
 			self:props.self,
 		}
@@ -142,10 +189,10 @@ class Possess extends React.PureComponent {
 		//console.log(this.state)
 		return `possess=${LeaderOnly},${Possess_1},${Possess_2},${Amplifier};`
 	}
-	header(){
+	header(items=this.state.items,LeaderOnly=this.state.LeaderOnly){
 		let text=[];
 		let Possess_1=[],Possess_2=[],Amplifier=[];
-		this.state.items.forEach(
+		items.forEach(
 			(i)=>{
 				Possess_1.push(i.data.Possess_1);
 				Possess_2.push(i.data.Possess_2);
@@ -155,7 +202,7 @@ class Possess extends React.PureComponent {
 			text.push(`${Possess_1[index]}符石兼具 ${Amplifier[index]}% ${Possess_2[index]}符石效果`);
 		})
 		text=text.join("，\n")
-		if(this.state.LeaderOnly==true)
+		if(LeaderOnly==true)
 			text+="\n(不可疊加)"
 		return text;
 	}
@@ -172,7 +219,7 @@ class Possess extends React.PureComponent {
 				<Card shadow={'always'} onClick={()=>{
 					this.setState({	visible: true})
 				}}>
-					{this.state.header.split('\n').map(i=><p>{i}</p>)}
+					{this.state.header.split('\n').map(i=><p key={uuidv1()}>{i}</p>)}
 				</Card>
 				<Drawer 
 					visible={this.state.visible}
@@ -189,14 +236,14 @@ class Possess extends React.PureComponent {
 					getContainer={null}
 					afterVisibleChange={()=> {}}
             	>
-					<Checkbox onChange={(e)=>{
+					<Checkbox defaultChecked={this.state.LeaderOnly} onChange={(e)=>{
 						let LeaderOnly=e.target.checked
 						this.setState({LeaderOnly},()=>{
 							this.setState({header:this.header()});
 						});
 					} }>正副隊長不可疊加</Checkbox>
-					<Button onClick={()=>{this.state.items.push({id:Date.now(),data:{Possess_1:"水",Possess_2:"水",Amplifier:100}});this.setState({header:this.header()})}}>新增</Button>
-					{this.state.items.map(i => <Possess_subsystem id={i.id} data={i.data} getList={this.state.items} Refresh={()=>this.Refresh()}/>)}
+					<Button onClick={()=>{this.state.items.push({id:uuidv1,data:{Possess_1:"水",Possess_2:"水",Amplifier:100}});this.setState({header:this.header()})}}>新增</Button>
+					{this.state.items.map(i => <Possess_subsystem id={i.id} data={i.data} key={uuidv1()} getList={this.state.items} Refresh={()=>this.Refresh()}/>)}
 			</Drawer>
 		</React.Fragment>
 		)

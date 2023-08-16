@@ -1,4 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
+import { v1 as uuidv1 } from 'uuid';
+
 import {DndContext,closestCenter,KeyboardSensor,MouseSensor,TouchSensor,useSensor,useSensors,} from '@dnd-kit/core';
 import {useSortable,SortableContext,sortableKeyboardCoordinates,verticalListSortingStrategy,} from '@dnd-kit/sortable';
 import {
@@ -39,20 +41,20 @@ function LeaderSkills(props) {
 	function skill(){
 		
 		switch(props.self.name){
-			case '倍率':
-				return <Mag set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
-			case '動態倍率':
-				return <DynaMag set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
-			case '減傷':
-				return <Dh set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
-			case '改變消除方式':
-				return <Dsv set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
-			case '兼具':
-				return <Possess set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
-			case '改變掉落':
-				return <Gsbc set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
-			case '延秒':
-				return <Addtime set_skill={set_skill} self={props.self} id={props.id} header={props.header}/>
+			case '倍率':case 'mag':
+				return <Mag set_skill={set_skill} self={props.self} id={props.id} header={props.header} init={props.init}/>
+			case '動態倍率':case 'dynaMag':
+				return <DynaMag set_skill={set_skill} self={props.self} id={props.id} header={props.header} init={props.init}/>
+			case '減傷':case 'dh':
+				return <Dh set_skill={set_skill} self={props.self} id={props.id} header={props.header} init={props.init}/>
+			case '改變消除方式':case 'dsv':
+				return <Dsv set_skill={set_skill} self={props.self} id={props.id} header={props.header} init={props.init}/>
+			case '兼具':case 'possess':
+				return <Possess set_skill={set_skill} self={props.self} id={props.id} header={props.header} init={props.init}/>
+			case '改變掉落':case 'gsbc':
+				return <Gsbc set_skill={set_skill} self={props.self} id={props.id} header={props.header} init={props.init}/>
+			case '延秒':case 'addtime':
+				return <Addtime set_skill={set_skill} self={props.self} id={props.id} header={props.header} init={props.init}/>
 			default:
 				return <Card><p>{props.self.name+'目前尚未設計'}</p></Card>
 			// do nothing
@@ -71,6 +73,20 @@ function LeaderSkills(props) {
 }
 function LeaderSkillsList(props) {
 	const [items, setItems] = useState([]);
+
+	useEffect(() => {
+		deleteItems(0,true);
+		if(props.Input.ls!==''){
+			let LS_List=props.Input.ls.split(";")
+			LS_List.forEach(i => {
+				//console.log(i.split("=")[0])
+				if(i.split("=")[0]!=='')
+					addItems(i.split("=")[0],i)
+			});
+		}
+	  }, [props.Input.time]);
+
+
 	const sensors = useSensors(
 	useSensor(MouseSensor, {
 		activationConstraint: {
@@ -87,7 +103,7 @@ function LeaderSkillsList(props) {
 
 	return (
 	<div>
-		<Select defaultValue={SelectSkill} clear={false} placeholder={"請選擇"} onChange={(value)=>{SelectSkill=value;addItems()} }>
+		<Select defaultValue={SelectSkill} clear={false} placeholder={"請選擇"} onChange={(value)=>{SelectSkill=value;addItems(SelectSkill)} }>
 			<Select.Option value={"倍率"}>倍率</Select.Option>
 			<Select.Option value={"動態倍率"}>動態倍率</Select.Option>
 			<Select.Option value={"減傷"}>減傷</Select.Option>
@@ -107,7 +123,7 @@ function LeaderSkillsList(props) {
 					items={items}
 					strategy={verticalListSortingStrategy}
 				>
-					{items.map(i => <LeaderSkills key={i.id} id={i.id} self={i} deleteItems={deleteItems} getList={getList}/>)}
+					{items.map(i => <LeaderSkills key={i.id} id={i.id} self={i} init={i.init} deleteItems={deleteItems} getList={getList}/>)}
 				</SortableContext>
 			</DndContext>
 		</div>
@@ -115,15 +131,18 @@ function LeaderSkillsList(props) {
 	);
 	function getList(){
         props.get(items);
+		//console.log(items)
 		return items;
 	}
-	function addItems(){
-		items.push({id:Date.now(),name:SelectSkill,skill:""});
+	function addItems(SelectSkill,init=""){
+		items.push({id:uuidv1(),name:SelectSkill,skill:"",init:init});
 		setItems(items.concat([]));
 		getList();
 	}
-	function deleteItems(position){
+	function deleteItems(position,all=false){
         items.splice(position, 1);
+		if(all===true)
+			items.length = 0;
         setItems(items.concat([]));
         getList();
 	}

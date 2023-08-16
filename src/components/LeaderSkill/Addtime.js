@@ -1,4 +1,5 @@
 import React from 'react';
+import { v1 as uuidv1 } from 'uuid';
 
 //加入legao
 import { Select,InputNumber,Drawer,Card,Tooltip } from '@feb-team/legao-react';
@@ -7,13 +8,33 @@ import '@feb-team/legao-react/dist/styles/css/legao.all.css';
 class Addtime extends React.PureComponent {
 	constructor(props) {
 		super(props);
+		let header='移動符石時間延長 1 秒',
+			Type='延長',
+			Time=1,
+			ExTime=0,
+			MaxExTime=0;
+		if(props.init!==''){
+			let data=props.init.split("=")[1].split(",")
+			//`addtime=0,${Type},${Time},${ExTime},${MaxExTime};`
+			switch (data[1]) {
+				case '0':Type='延長'; break;
+				case '1':Type='必然延長'; break;
+				case '2':Type='必延長至'; break;
+				default:
+			}
+			Time=data[2];
+			ExTime=data[3];
+			MaxExTime=data[4];
+			header=this.header(Type,Time,ExTime,MaxExTime);
+		}
+		
 		this.state = {
 			visible: false,
-			header:'移動符石時間延長 1 秒',
-			Type:'延長',
-			Time:1,
-			ExTime:0,
-			MaxExTime:0,
+			header:header,
+			Type:Type,
+			Time:Time,
+			ExTime:ExTime,
+			MaxExTime:MaxExTime,
 			set_skill:props.set_skill,
 			self:props.self,
 		}
@@ -31,12 +52,12 @@ class Addtime extends React.PureComponent {
 		}
 		return `addtime=0,${Type},${Time},${ExTime},${MaxExTime};`
 	}
-	header(){
-		let text=`移動符石時間${this.state.Type} ${this.state.Time} 秒`;
-		if(this.state.ExTime>0)
-			text+=`，\n隊伍成員每多 1 屬性，額外延長 ${this.state.ExTime} 秒`
-		if(this.state.MaxExTime>0)
-			text+=`，\n最多可額外延長 ${this.state.MaxExTime} 秒`
+	header(Type=this.state.Type,Time=this.state.Time,ExTime=this.state.ExTime,MaxExTime=this.state.MaxExTime){
+		let text=`移動符石時間${Type} ${Time} 秒`;
+		if(ExTime>0)
+			text+=`，\n隊伍成員每多 1 屬性，額外延長 ${ExTime} 秒`
+		if(MaxExTime>0)
+			text+=`，\n最多可額外延長 ${MaxExTime} 秒`
 		return text;
 	}
 	render() {
@@ -46,7 +67,7 @@ class Addtime extends React.PureComponent {
 				<Card shadow={'always'} onClick={()=>{
 					this.setState({	visible: true})
 				}}>
-					{this.state.header.split('\n').map(i=><p>{i}</p>)}
+					{this.state.header.split('\n').map(i=><p key={uuidv1()}>{i}</p>)}
 				</Card>
 				<Drawer 
 					visible={this.state.visible}
@@ -61,7 +82,6 @@ class Addtime extends React.PureComponent {
 					maskClosable={true}
 					zIndex={0}
 					getContainer={null}
-					afterVisibleChange={()=> {}}
             	>
 					<Tooltip title="選擇延長的方式" placement={"Left"}>
 						<div>
