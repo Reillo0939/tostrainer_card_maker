@@ -79,26 +79,25 @@ function LeaderSkillsList(props) {
 		if(props.Input.ls!==''){
 			let LS_List=props.Input.ls.split(";")
 			LS_List.forEach(i => {
-				//console.log(i.split("=")[0])
+				//console.log(LS_List)
 				if(i.split("=")[0]!=='')
 					addItems(i.split("=")[0],i)
 			});
 		}
 	  }, [props.Input.time]);
 
-
 	const sensors = useSensors(
-	useSensor(MouseSensor, {
-		activationConstraint: {
-			distance: 20,
-	}}),
-	useSensor(TouchSensor, {
-		activationConstraint: {
-			distance: 20,
-	}}),
-	useSensor(KeyboardSensor, {
-		coordinateGetter: sortableKeyboardCoordinates,
-	})
+		useSensor(MouseSensor, {
+			activationConstraint: {
+				distance: 20,
+		}}),
+		useSensor(TouchSensor, {
+			activationConstraint: {
+				distance: 20,
+		}}),
+		useSensor(KeyboardSensor, {
+			coordinateGetter: sortableKeyboardCoordinates,
+		})
 	);
 
 	return (
@@ -140,9 +139,10 @@ function LeaderSkillsList(props) {
 		getList();
 	}
 	function deleteItems(position,all=false){
-        items.splice(position, 1);
 		if(all===true)
 			items.length = 0;
+
+        items.splice(position, 1);
         setItems(items.concat([]));
         getList();
 	}

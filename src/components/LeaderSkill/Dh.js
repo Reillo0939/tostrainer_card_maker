@@ -2,7 +2,7 @@ import React from 'react';
 import { v1 as uuidv1 } from 'uuid';
 
 //加入legao
-import { Checkbox,InputNumber,Drawer,Card,Tooltip } from '@feb-team/legao-react';
+import { Checkbox,InputNumber,Drawer,Card,Tooltip,Space } from '@feb-team/legao-react';
 import '@feb-team/legao-react/dist/styles/css/legao.all.css';
 
 class Dh extends React.PureComponent{
@@ -19,7 +19,7 @@ class Dh extends React.PureComponent{
 			Percentage=data[3].split(',')[0]
 			HPGT=data[4].split(',')[0]
 			AC=data[5].split(',')[0]
-			console.log(data )
+			//console.log(data )
 			AI=data[6] 
 				.replace("0","水")
 				.replace("1","火")
@@ -149,18 +149,26 @@ class Dh extends React.PureComponent{
 				</Tooltip>
 				<Tooltip title="輸入達成條件所需同時消除的符石種類" placement={"Left"}>
 						<div>
-							<Checkbox.Group onChange={(AI)=>{
-								this.setState({AI},()=>{
-									this.setState({header:this.header()});
-								});
-							} } >
-								<Checkbox>水</Checkbox>
-								<Checkbox>火</Checkbox>
-								<Checkbox>木</Checkbox>
-								<Checkbox>光</Checkbox>
-								<Checkbox>暗</Checkbox>
-								<Checkbox>心</Checkbox>
-							</Checkbox.Group>
+						<Space direction="vertical">	
+								<Checkbox.Group onChange={(AI)=>{
+									this.setState({AI},()=>{
+										this.setState({header:this.header()});
+									});
+								} } >
+									<Checkbox.Font>水</Checkbox.Font>
+									<Checkbox.Font>火</Checkbox.Font>
+									<Checkbox.Font>木</Checkbox.Font>
+								</Checkbox.Group>
+								<Checkbox.Group onChange={(AI)=>{
+									this.setState({AI},()=>{
+										this.setState({header:this.header()});
+									});
+								} } >
+									<Checkbox.Font>光</Checkbox.Font>
+									<Checkbox.Font>暗</Checkbox.Font>
+									<Checkbox.Font>心</Checkbox.Font>
+								</Checkbox.Group>
+							</Space>
 						</div>
 				</Tooltip>
 				

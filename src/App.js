@@ -43,12 +43,17 @@ class App extends React.Component {
 			<div style={{  display: 'flex',justifyContent: 'center',alignItems: 'center' } }>
 				<Tabs type={"border"} defaultActiveKey={'0'} size={this.state.size} onBeforeChange={(key)=>{return true}} onChange={(activeKey)=>{
 					if(activeKey==='4'){
+						let AS="";
+						ActiveSkillList.forEach((value,index)=>{
+							if(value.list.length>0)
+								AS+=`${value.name}=b=${value.cd}$s=${value.list.map(i=>i.skill).join("")};`;
+						})
 						this.setState({
-							ActiveSkill:`$$as=${ActiveSkillList.map(i=>i.skill).join('')}`,
+							ActiveSkill:`$$as=${AS}`,
 							LeaderSkill:`$$ls=${time()}=s=${LeaderSkillList.map(i=>i.skill).join('')}`
 						},
 						()=>this.setState({Output:this.state.Basic.text+this.state.ActiveSkill+this.state.LeaderSkill+'$$ts=$$imgId=$$imgCrop=$$imgSrc='}));
-						//console.log(ActiveSkillList)
+						console.log(ActiveSkillList)
 						//console.log(LeaderSkillList)
 						//console.log(this.state.Output)
 					}
@@ -57,7 +62,7 @@ class App extends React.Component {
 						<BasicInformation Basic={this.state.Basic} Input={this.state.Input}/>
 					</Tabs.Panel>
 					<Tabs.Panel key="1" label="主動技能" forceRender={true}>
-						<ActiveSkill get={getActiveSkill} />
+						<ActiveSkill get={getActiveSkill}  Input={this.state.Input}/>
 					</Tabs.Panel>
 					<Tabs.Panel key="2" label="隊長技能" forceRender={true}>
 						<LeaderSkill get={getLeaderSkill} Input={this.state.Input}/>

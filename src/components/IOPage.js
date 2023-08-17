@@ -3,7 +3,7 @@ import {CopyToClipboard} from 'react-copy-to-clipboard';
 import Clipboard from '@react-native-clipboard/clipboard';
 
 //加入legao
-import { Tabs,Input, Button,notification } from '@feb-team/legao-react';
+import { Tabs,Input, Button,message } from '@feb-team/legao-react';
 
 class IOPage extends React.PureComponent {
 	constructor(props) {
@@ -84,7 +84,7 @@ class IOPage extends React.PureComponent {
 					<Textarea value={this.props.Output} />
 					<Button onClick={()=>{
 						Clipboard.setString(this.props.Output)
-						notification.success({message:'複製成功',duration:1000});
+						message.success('複製成功',1000);
 					}}>
 						一鍵複製
 					</Button>
@@ -95,7 +95,7 @@ class IOPage extends React.PureComponent {
 						const Input = await Clipboard.getString();
 						this.setState({Input});
 						this.Input_process(Input);
-						notification.success({message:'貼上成功',duration:1000});
+						message.success('貼上成功',1000);
 					}}>
 						一鍵貼上
 					</Button>

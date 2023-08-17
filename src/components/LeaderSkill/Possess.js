@@ -5,7 +5,7 @@ import { v1 as uuidv1 } from 'uuid';
 import { Select,InputNumber,Drawer,Card,Tooltip,Button,Checkbox,message } from '@feb-team/legao-react';
 import '@feb-team/legao-react/dist/styles/css/legao.all.css';
 
-function Possess_subsystem(props) {
+function PossessSubsystem(props) {
 	const [state, setState] = useState([]);
 	function REheader(){
 		setState({...state});
@@ -106,7 +106,7 @@ class Possess extends React.PureComponent {
 			let data=props.init.split("=")[1].split(",");
 			//`possess=${LeaderOnly},${Possess_1},${Possess_2},${Amplifier};`
 			LeaderOnly=data[0]==='1'?true:false;
-			console.log(LeaderOnly)
+			//onsole.log(LeaderOnly)
 			let Possess_1=data[1]
 				.replaceAll(0,"水")
 				.replaceAll(1,"火")
@@ -202,7 +202,7 @@ class Possess extends React.PureComponent {
 			text.push(`${Possess_1[index]}符石兼具 ${Amplifier[index]}% ${Possess_2[index]}符石效果`);
 		})
 		text=text.join("，\n")
-		if(LeaderOnly==true)
+		if(LeaderOnly===true)
 			text+="\n(不可疊加)"
 		return text;
 	}
@@ -236,14 +236,14 @@ class Possess extends React.PureComponent {
 					getContainer={null}
 					afterVisibleChange={()=> {}}
             	>
-					<Checkbox defaultChecked={this.state.LeaderOnly} onChange={(e)=>{
+					<Checkbox.Font defaultChecked={this.state.LeaderOnly} onChange={(e)=>{
 						let LeaderOnly=e.target.checked
 						this.setState({LeaderOnly},()=>{
 							this.setState({header:this.header()});
 						});
-					} }>正副隊長不可疊加</Checkbox>
+					} }>正副隊長不可疊加</Checkbox.Font>
 					<Button onClick={()=>{this.state.items.push({id:uuidv1,data:{Possess_1:"水",Possess_2:"水",Amplifier:100}});this.setState({header:this.header()})}}>新增</Button>
-					{this.state.items.map(i => <Possess_subsystem id={i.id} data={i.data} key={uuidv1()} getList={this.state.items} Refresh={()=>this.Refresh()}/>)}
+					{this.state.items.map(i => <PossessSubsystem id={i.id} data={i.data} key={uuidv1()} getList={this.state.items} Refresh={()=>this.Refresh()}/>)}
 			</Drawer>
 		</React.Fragment>
 		)
