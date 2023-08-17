@@ -75,6 +75,7 @@ function LeaderSkillsList(props) {
 	const [items, setItems] = useState([]);
 
 	useEffect(() => {
+		console.log(props)
 		deleteItems(0,true);
 		if(props.Input.ls!==''){
 			let LS_List=props.Input.ls.split(";")

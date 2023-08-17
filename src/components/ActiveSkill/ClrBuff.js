@@ -1,5 +1,4 @@
 import React from 'react';
-import { v1 as uuidv1 } from 'uuid';
 
 //加入legao
 import { Card } from '@feb-team/legao-react';

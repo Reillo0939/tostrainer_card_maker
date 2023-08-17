@@ -65,7 +65,9 @@ class App extends React.Component {
 						<ActiveSkill get={getActiveSkill}  Input={this.state.Input}/>
 					</Tabs.Panel>
 					<Tabs.Panel key="2" label="隊長技能" forceRender={true}>
-						<LeaderSkill get={getLeaderSkill} Input={this.state.Input}/>
+						<LeaderSkill get={getLeaderSkill} Input={this.state.Input}>
+							<p>20154</p>
+						</LeaderSkill>
 					</Tabs.Panel>
 					<Tabs.Panel key="3" label="隊伍技能" forceRender={true}>
 						

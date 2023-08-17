@@ -15,6 +15,7 @@ import '@feb-team/legao-react/dist/styles/css/legao.all.css';
 
 import ClrLock from './ActiveSkill/ClrLock';
 import ClrBuff from './ActiveSkill/ClrBuff';
+import DirAtk from './ActiveSkill/DirAtk';
 
 //import CardCondition from './ActiveSkill/CardCondition';
 
@@ -38,9 +39,11 @@ function ActiveSkills(props) {
 		
 		switch(props.self.name){
 			case '解鎖': case 'clrLock':
-				return <ClrLock set_skill={set_skill} self={props.self} id={props.id} header={props.header} init={props.init} />
+				return <ClrLock set_skill={set_skill} self={props.self} id={props.id} init={props.init} />
 			case '附加消除':case 'clrBuff':
 				return <ClrBuff set_skill={set_skill} self={props.self} />
+			case '直傷': case 'dirAtk':
+				return <DirAtk set_skill={set_skill} self={props.self} id={props.id} init={props.init} />
 			default:
 				return <Card><p>{props.self.name+'目前尚未設計'}</p></Card>
 			// do nothing
@@ -49,7 +52,7 @@ function ActiveSkills(props) {
 	return (
 		<div ref={setNodeRef} style={style} {...attributes} {...listeners}>
 			{skill()}
-			<Button onClick={deleteButton} style={{position:'absolute',right:'0px',top:'0px'}}>刪除</Button>
+			<Button onClick={deleteButton} size={"small"} style={{position:'absolute',right:'0px',top:'0px'}}>刪除</Button>
 		</div>
 	);
 	function deleteButton(){
@@ -148,20 +151,20 @@ function ActiveSkillsList(props) {
 		<Select defaultValue={state.SelectSkill} clear={false} placeholder={"請選擇"} onChange={(SelectSkill)=>{console.log(state);setState({...state,...{SelectSkill:SelectSkill}});addItems(SelectSkill)} }>
 			<Select.Option value={"解鎖"}>解鎖</Select.Option>
 			<Select.Option value={"附加消除"}>附加消除</Select.Option>
-			<Select.Option value={"引爆符石"}>引爆符石</Select.Option>
-			<Select.Option value={"轉版"}>轉版</Select.Option>
+			<Select.Option value={"引爆符石"}>引爆符石x</Select.Option>
+			<Select.Option value={"轉版"}>轉版x</Select.Option>
 			<Select.Option value={"直傷"}>直傷</Select.Option>
-			<Select.Option value={"增減集氣值"}>增減集氣值</Select.Option>
-			<Select.Option value={"增攻"}>增攻</Select.Option>
-			<Select.Option value={"增回"}>增回</Select.Option>
-			<Select.Option value={"減傷"}>減傷</Select.Option>
-			<Select.Option value={"改變消除方式"}>改變消除方式</Select.Option>
-			<Select.Option value={"延秒"}>延秒</Select.Option>
-			<Select.Option value={"排珠"}>排珠</Select.Option>
-			<Select.Option value={"追打"}>追打</Select.Option>
-			<Select.Option value={"兼具"}>兼具</Select.Option>
-			<Select.Option value={"變身"}>變身</Select.Option>
-			<Select.Option value={"合體"}>合體</Select.Option>			
+			<Select.Option value={"增減集氣值"}>增減集氣值w</Select.Option>
+			<Select.Option value={"增攻"}>增攻w</Select.Option>
+			<Select.Option value={"增回"}>增回w</Select.Option>
+			<Select.Option value={"減傷"}>減傷w</Select.Option>
+			<Select.Option value={"改變消除方式"}>改變消除方式w</Select.Option>
+			<Select.Option value={"延秒"}>延秒w</Select.Option>
+			<Select.Option value={"排珠"}>排珠w</Select.Option>
+			<Select.Option value={"追打"}>追打w</Select.Option>
+			<Select.Option value={"兼具"}>兼具w</Select.Option>
+			<Select.Option value={"變身"}>變身w</Select.Option>
+			<Select.Option value={"合體"}>合體w</Select.Option>			
 		</Select>
 
 		<Tabs type={"card"} defaultActiveKey={selectSkillList} size={'normal'} onBeforeChange={(key)=>{return true} } onChange={(activeKey)=>{selectSkillList=activeKey}}>

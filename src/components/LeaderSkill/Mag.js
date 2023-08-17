@@ -88,7 +88,7 @@ class Mag extends React.PureComponent{
 		}
 		return `mag=${Element},${Race},${Type},${Amplifier};`
 	}
-	header(Element,Race,Type,Amplifier){
+	header(Element=this.state.Element,Race=this.state.Race,Type=this.state.Type,Amplifier=this.state.Amplifier){
 		return `${Element==="不限屬性"?"":Element} ${Element!=="不限屬性"&&Race==="全隊"?"":Race} ${Type} ${Amplifier}倍`;
 	}
 	render() {
@@ -116,7 +116,7 @@ class Mag extends React.PureComponent{
             >
 				<Tooltip title="選擇提升的屬性" placement={"Left"}>
 						<div>
-							<Select defaultValue={this.state.Element} clear={false} placeholder={"請選擇"} 
+							<Select defaultValue={this.state.Element} clear={false} placeholder={"請選擇"} style={{width:'100%'}}
 							onChange={(Element)=>{
 								this.setState({Element},()=>{
 									this.setState({header:this.header()});
@@ -133,7 +133,7 @@ class Mag extends React.PureComponent{
 				</Tooltip>
 				<Tooltip title="選擇提升的種族" placement={"Left"}>
 						<div>
-						<Select defaultValue={this.state.Race} clear={false} placeholder={"請選擇"} 
+						<Select defaultValue={this.state.Race} clear={false} placeholder={"請選擇"} style={{width:'100%'}}
 							onChange={(Race)=>{
 								this.setState({Race},()=>{
 									this.setState({header:this.header()});
@@ -152,7 +152,7 @@ class Mag extends React.PureComponent{
 				</Tooltip>
 				<Tooltip title="選擇提升的種類" placement={"Left"}>
 						<div>
-							<Select defaultValue={this.state.Type} clear={false} placeholder={"請選擇"} 
+							<Select defaultValue={this.state.Type} clear={false} placeholder={"請選擇"} style={{width:'100%'}}
 							onChange={(Type)=>{
 								this.setState({Type},()=>{
 									this.setState({header:this.header()});
@@ -166,7 +166,7 @@ class Mag extends React.PureComponent{
 				</Tooltip>
 				<Tooltip title="輸入攻擊力提升的倍率" placement={"Left"}>
 						<div>
-							<InputNumber defaultValue={this.state.Amplifier} max={9223372036854775807} min={0} decimalPlaces={3} step={0.1} style={{width:'200px'}} 
+							<InputNumber defaultValue={this.state.Amplifier} max={9223372036854775807} min={0} decimalPlaces={3} step={0.1} style={{width:'100%'}} 
 							onChange={(Amplifier)=>{
 								if(isNaN(Amplifier))
 									Amplifier=0;

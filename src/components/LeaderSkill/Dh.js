@@ -147,7 +147,7 @@ class Dh extends React.PureComponent{
 						/>
 						</div>
 				</Tooltip>
-				<Tooltip title="輸入達成條件所需同時消除的符石種類" placement={"Left"}>
+				<Tooltip title="點選達成條件所需同時消除的符石種類" placement={"Left"}>
 						<div>
 						<Space direction="vertical">	
 								<Checkbox.Group onChange={(AI)=>{
